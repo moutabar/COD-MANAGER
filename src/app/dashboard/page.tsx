@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { TrendingUp, Package, Truck, AlertTriangle } from 'lucide-react'
+import { TrendingUp, Package, AlertTriangle, Truck } from 'lucide-react'
 import AddOrderModal from '@/components/AddOrderModal'
 
 export default function DashboardPage() {
@@ -27,7 +27,6 @@ export default function DashboardPage() {
     if (error) { alert("Erreur"); fetchOrders() }
   }
 
-  // --- CALCUL DES KPIs ----
   const totalOrders = orders.length
   const revenue = orders.filter(o => o.status === 'livre').reduce((sum, o) => sum + Number(o.total_mad), 0)
   const pending = orders.filter(o => o.status === 'en_attente' || o.status === 'expedie').length
@@ -50,43 +49,17 @@ export default function DashboardPage() {
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Tableau de bords</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Tableau de bord</h1>
         <AddOrderModal onOrderAdded={fetchOrders} />
       </div>
 
-      {/* KPI CARDS */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Chiffre d'affaires (Livré)</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{revenue.toLocaleString()} DH</div><p className="text-xs text-muted-foreground">Commandes livrées uniquement</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Commandes en cours</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{pending}</div><p className="text-xs text-muted-foreground">En attente ou expédiées</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Taux de retour</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{returnRate}%</div><p className="text-xs text-muted-foreground">{returns} retours sur {totalOrders} commandes</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Frais de port à récupérer</CardTitle>
-            <Truck className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent><div className="text-2xl font-bold">{shippingToCollect} DH</div><p className="text-xs text-muted-foreground">À récupérer auprès des livreurs</p></CardContent>
-        </Card>
+        <Card><CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Chiffre d'affaires (Livré)</CardTitle><TrendingUp className="h-4 w-4 text-muted-foreground" /></CardHeader><CardContent><div className="text-2xl font-bold">{revenue.toLocaleString()} DH</div><p className="text-xs text-muted-foreground">Commandes livrées</p></CardContent></Card>
+        <Card><CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Commandes en cours</CardTitle><Package className="h-4 w-4 text-muted-foreground" /></CardHeader><CardContent><div className="text-2xl font-bold">{pending}</div><p className="text-xs text-muted-foreground">En attente ou expédiées</p></CardContent></Card>
+        <Card><CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Taux de retour</CardTitle><AlertTriangle className="h-4 w-4 text-muted-foreground" /></CardHeader><CardContent><div className="text-2xl font-bold">{returnRate}%</div><p className="text-xs text-muted-foreground">{returns} retours sur {totalOrders}</p></CardContent></Card>
+        <Card><CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Frais de port à récupérer</CardTitle><Truck className="h-4 w-4 text-muted-foreground" /></CardHeader><CardContent><div className="text-2xl font-bold">{shippingToCollect} DH</div><p className="text-xs text-muted-foreground">Auprès des livreurs</p></CardContent></Card>
       </div>
 
-      {/* TABLEAU */}
       <Card>
         <CardHeader><CardTitle>Gestion des commandes COD</CardTitle></CardHeader>
         <CardContent>
@@ -96,9 +69,7 @@ export default function DashboardPage() {
             <div className="rounded-md border">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>N° Commande</TableHead><TableHead>Client</TableHead><TableHead>Total</TableHead><TableHead>Statut</TableHead><TableHead>Action</TableHead><TableHead>Date</TableHead>
-                  </TableRow>
+                  <TableRow><TableHead>N° Commande</TableHead><TableHead>Client</TableHead><TableHead>Total</TableHead><TableHead>Statut</TableHead><TableHead>Action</TableHead><TableHead>Date</TableHead></TableRow>
                 </TableHeader>
                 <TableBody>
                   {orders.map((order) => (
