@@ -27,7 +27,7 @@ export default function DashboardPage() {
     if (error) { alert("Erreur"); fetchOrders() }
   }
 
-  // --- CALCUL DES KPIs ---
+  // --- CALCUL DES KPIs ----
   const totalOrders = orders.length
   const revenue = orders.filter(o => o.status === 'livre').reduce((sum, o) => sum + Number(o.total_mad), 0)
   const pending = orders.filter(o => o.status === 'en_attente' || o.status === 'expedie').length
