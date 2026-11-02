@@ -34,4 +34,4 @@ export default function Home() {
       <footer className="border-t mt-20"><div className="max-w-7xl mx-auto px-8 py-8 text-center text-muted-foreground"><p>© 2026 COD Manager. Fait avec ❤️ au Maroc.</p></div></footer>
     </div>
   )
-}
+} 
